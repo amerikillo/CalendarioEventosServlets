@@ -148,6 +148,38 @@ public class Events extends HttpServlet {
                     System.out.println(e.getMessage());
                 }
             }
+            
+            if (ban.equals("4")) {
+                try {
+                    con.conectar();
+                    try {
+                        con.actualizar(" delete from evenement where id =  "+request.getParameter("id")+"");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    try {
+                        ResultSet rset = con.consulta("SELECT * FROM evenement ORDER BY id;");
+                        while (rset.next()) {
+                            json.put("id", rset.getString("id"));
+                            json.put("title", rset.getString("title"));
+                            json.put("start", rset.getString("start"));
+                            json.put("end", rset.getString("end"));
+                            json.put("url", rset.getString("url"));
+                            json.put("allDay", rset.getString("allDay"));
+                            jsona.add(json);
+                            json = new JSONObject();
+                        }
+                        response.setContentType("text/html;charset=UTF-8");
+                        out.println(jsona);
+                        System.out.println(jsona);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    con.cierraConexion();
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
         } catch (Exception e) {
         }
         

@@ -86,7 +86,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    center: 'title',\n");
       out.write("                    right: 'month,agendaWeek,agendaDay'\n");
       out.write("                },\n");
-      out.write("                events: \"Events\",\n");
+      out.write("                events: \"Events?ban=1\",\n");
       out.write("                // Convert the allDay from string to boolean\n");
       out.write("                eventRender: function(event, element, view) {\n");
       out.write("                    if (event.allDay === 'true') {\n");
@@ -104,7 +104,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                        var start = $.fullCalendar.formatDate(start, \"yyyy-MM-dd HH:mm:ss\");\n");
       out.write("                        var end = $.fullCalendar.formatDate(end, \"yyyy-MM-dd HH:mm:ss\");\n");
       out.write("                        $.ajax({\n");
-      out.write("                            url: 'Servlet?ban=1',\n");
+      out.write("                            url: 'Events?ban=3',\n");
       out.write("                            data: 'title=' + title + '&start=' + start + '&end=' + end + '&url=' + url,\n");
       out.write("                            type: \"POST\",\n");
       out.write("                            success: function(json) {\n");
@@ -128,7 +128,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                            var start = $.fullCalendar.formatDate(event.start, \"yyyy-MM-dd HH:mm:ss\");\n");
       out.write("                            var end = $.fullCalendar.formatDate(event.end, \"yyyy-MM-dd HH:mm:ss\");\n");
       out.write("                            $.ajax({\n");
-      out.write("                                url: 'http://127.0.0.1/fullcalendar/demos/update_events.php',\n");
+      out.write("                                url: 'Events?ban=2',\n");
       out.write("                                data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,\n");
       out.write("                                type: \"POST\",\n");
       out.write("                                success: function(json) {\n");
@@ -140,7 +140,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    var start = $.fullCalendar.formatDate(event.start, \"yyyy-MM-dd HH:mm:ss\");\n");
       out.write("                    var end = $.fullCalendar.formatDate(event.end, \"yyyy-MM-dd HH:mm:ss\");\n");
       out.write("                    $.ajax({\n");
-      out.write("                        url: 'http://127.0.0.1/fullcalendar/demos/update_events.php',\n");
+      out.write("                        url: 'Events?ban=2',\n");
       out.write("                        data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id,\n");
       out.write("                        type: \"POST\",\n");
       out.write("                        success: function(json) {\n");
@@ -151,6 +151,20 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                }\n");
       out.write("\n");
       out.write("            });\n");
+      out.write("\n");
+      out.write("            eventClick: function(event) {\n");
+      out.write("                var decision = confirm(\"Do you really want to do that?\");\n");
+      out.write("                if (decision) {\n");
+      out.write("                    $.ajax({\n");
+      out.write("                        type: \"POST\",\n");
+      out.write("                        url: \"your url/delete_events.php\",\n");
+      out.write("                        data: \"&id=\" + event.id\n");
+      out.write("                    });\n");
+      out.write("                    $('#calendar2').fullCalendar('removeEvents', event.id);\n");
+      out.write("\n");
+      out.write("                } else {\n");
+      out.write("                }\n");
+      out.write("            }\n");
       out.write("\n");
       out.write("        });\n");
       out.write("\n");
